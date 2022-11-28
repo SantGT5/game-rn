@@ -1,8 +1,9 @@
-import { Text, View, StyleSheet } from "react-native";
+import { Text, View, StyleSheet, Alert } from "react-native";
 
 // Component
 import Title from "../components/ui/Title";
 import NumberContainer from "../components/game/NumberContainer";
+import PrimaryButton from "../components/ui/PrimaryButton";
 
 import React from "react";
 
@@ -16,9 +17,40 @@ function generateRandomBetween(min, max, exclude) {
   }
 }
 
-function GameScreen({ userNumber }) {
+let minBoundary = 1;
+let maxBoundary = 100;
+
+function GameScreen({ userNumber, onGameOver }) {
   const initialGuess = generateRandomBetween(1, 100, userNumber);
   const [currentGuess, setCurrentGuess] = React.useState(initialGuess);
+
+  React.useEffect(() => {
+    if (currentGuess === userNumber) onGameOver();
+  }, [currentGuess, userNumber, onGameOver]);
+
+  function nextGuessHandler(direction) {
+    if (
+      (direction === "lower" && currentGuess < userNumber) ||
+      (direction === "greater" && currentGuess > userNumber)
+    ) {
+      Alert.alert("Don't lie!", "You know that this is wrong...", [
+        { text: "Sorry!", style: "cancel" },
+      ]);
+      return;
+    }
+
+    if (direction === "lower") {
+      maxBoundary = currentGuess;
+    } else {
+      minBoundary = currentGuess + 1;
+    }
+    const newRndNumber = generateRandomBetween(
+      minBoundary,
+      maxBoundary,
+      currentGuess
+    );
+    setCurrentGuess(newRndNumber);
+  }
 
   return (
     <View style={screen}>
@@ -26,6 +58,14 @@ function GameScreen({ userNumber }) {
       <NumberContainer>{currentGuess}</NumberContainer>
       <View>
         <Text>Higher or lower?</Text>
+        <View>
+          <PrimaryButton onPress={nextGuessHandler.bind(this, "lower")}>
+            -
+          </PrimaryButton>
+          <PrimaryButton onPress={nextGuessHandler.bind(this, "greater")}>
+            +
+          </PrimaryButton>
+        </View>
       </View>
       <View></View>
     </View>
@@ -34,7 +74,7 @@ function GameScreen({ userNumber }) {
 
 export default GameScreen;
 
-const { screen, title } = StyleSheet.create({
+const { screen } = StyleSheet.create({
   screen: {
     flex: 1,
     padding: 24,
