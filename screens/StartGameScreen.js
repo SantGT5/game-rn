@@ -4,7 +4,7 @@ import React from "react";
 import Colors from "../constants/colors";
 
 // Component
-import PrimaryButton from "../components/PrimaryButton";
+import PrimaryButton from "../components/ui/PrimaryButton";
 
 function StartGameScreen({ onPickNumber }) {
   const [enteredNumber, setEnteredNumber] = React.useState("");
