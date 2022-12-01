@@ -1,4 +1,4 @@
-import { View, StyleSheet, Alert } from "react-native";
+import { View, StyleSheet, Alert, Text, FlatList } from "react-native";
 import { Ionicons } from "@expo/vector-icons";
 
 // Component
@@ -7,6 +7,7 @@ import NumberContainer from "../components/game/NumberContainer";
 import PrimaryButton from "../components/ui/PrimaryButton";
 import Card from "../components/ui/Card";
 import InstructionText from "../components/ui/InstructionText";
+import GuessLogItem from "../components/game/GuessLogItem";
 
 import React from "react";
 
@@ -26,10 +27,16 @@ let maxBoundary = 100;
 function GameScreen({ userNumber, onGameOver }) {
   const initialGuess = generateRandomBetween(1, 100, userNumber);
   const [currentGuess, setCurrentGuess] = React.useState(initialGuess);
+  const [guessRound, setGuessRound] = React.useState([initialGuess]);
 
   React.useEffect(() => {
-    if (currentGuess === userNumber) onGameOver();
+    if (currentGuess === userNumber) onGameOver(guessRound.length);
   }, [currentGuess, userNumber, onGameOver]);
+
+  React.useEffect(() => {
+    minBoundary = 1;
+    maxBoundary = 100;
+  }, []);
 
   function nextGuessHandler(direction) {
     if (
@@ -53,7 +60,10 @@ function GameScreen({ userNumber, onGameOver }) {
       currentGuess
     );
     setCurrentGuess(newRndNumber);
+    setGuessRound((prevGuessRound) => [newRndNumber, ...prevGuessRound]);
   }
+
+  const guessRoundsListLength = guessRound.length;
 
   return (
     <View style={screen}>
@@ -76,14 +86,25 @@ function GameScreen({ userNumber, onGameOver }) {
           </View>
         </View>
       </Card>
-      <View></View>
+      <View style={listContainer}>
+        <FlatList
+          data={guessRound}
+          keyExtractor={(item) => item}
+          renderItem={(itemData) => (
+            <GuessLogItem
+              roundNumber={guessRoundsListLength - itemData.index}
+              guess={itemData.item}
+            />
+          )}
+        />
+      </View>
     </View>
   );
 }
 
 export default GameScreen;
 
-const { screen, buttonsContainer, buttonContainer, instructionsText } =
+const { screen, buttonsContainer, buttonContainer, instructionsText, listContainer } =
   StyleSheet.create({
     screen: {
       flex: 1,
@@ -98,4 +119,8 @@ const { screen, buttonsContainer, buttonContainer, instructionsText } =
     buttonContainer: {
       flex: 1,
     },
+    listContainer: {
+      flex: 1,
+      padding: 16,
+    }
   });
