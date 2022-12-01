@@ -5,6 +5,9 @@ import Colors from "../constants/colors";
 
 // Component
 import PrimaryButton from "../components/ui/PrimaryButton";
+import Title from "../components/ui/Title";
+import Card from "../components/ui/Card";
+import InstructionText from "../components/ui/InstructionText";
 
 function StartGameScreen({ onPickNumber }) {
   const [enteredNumber, setEnteredNumber] = React.useState("");
@@ -33,63 +36,61 @@ function StartGameScreen({ onPickNumber }) {
   }
 
   return (
-    <View style={inputContainer}>
-      <TextInput
-        style={numberInput}
-        maxLength={2}
-        keyboardType="number-pad"
-        autoCapitalize="none"
-        autoCorrect={false}
-        value={enteredNumber}
-        onChangeText={numberInputHandler}
-      />
-      <View style={buttonsContainer}>
-        <View style={buttonContainer}>
-          <PrimaryButton onPress={resetInputHandle}>Reset</PrimaryButton>
+    <View style={rootContainer}>
+      <Title>Guess My Number</Title>
+      <Card>
+        <InstructionText>Enter a number</InstructionText>
+        <TextInput
+          style={numberInput}
+          maxLength={2}
+          keyboardType="number-pad"
+          autoCapitalize="none"
+          autoCorrect={false}
+          value={enteredNumber}
+          onChangeText={numberInputHandler}
+        />
+        <View style={buttonsContainer}>
+          <View style={buttonContainer}>
+            <PrimaryButton onPress={resetInputHandle}>Reset</PrimaryButton>
+          </View>
+          <View style={buttonContainer}>
+            <PrimaryButton onPress={confirmInputHandle}>Confirm</PrimaryButton>
+          </View>
         </View>
-        <View style={buttonContainer}>
-          <PrimaryButton onPress={confirmInputHandle}>Confirm</PrimaryButton>
-        </View>
-      </View>
+      </Card>
     </View>
   );
 }
 
 export default StartGameScreen;
 
-const { inputContainer, numberInput, buttonsContainer, buttonContainer } =
-  StyleSheet.create({
-    inputContainer: {
-      justifyContent: "center",
-      alignItems: "center",
-      marginTop: 100,
-      marginHorizontal: 24,
-      padding: 16,
-      backgroundColor: Colors.primary800,
-      borderRadius: 8,
-      // Android
-      elevation: 4,
-      // IOS
-      shadowColor: "black",
-      shadowOffset: { width: 0, height: 2 },
-      shadowRadius: 6,
-      shadowOpacity: 0.25,
-    },
-    numberInput: {
-      height: 50,
-      width: 50,
-      fontSize: 32,
-      borderBottomColor: Colors.accent500,
-      borderBottomWidth: 2,
-      color: Colors.accent500,
-      marginVertical: 8,
-      fontWeight: "bold",
-      textAlign: "center",
-    },
-    buttonsContainer: {
-      flexDirection: "row",
-    },
-    buttonContainer: {
-      flex: 1,
-    },
-  });
+const {
+  numberInput,
+  buttonsContainer,
+  buttonContainer,
+  rootContainer,
+  instructionText,
+} = StyleSheet.create({
+  rootContainer: {
+    flex: 1,
+    marginTop: 100,
+    alignItems: "center",
+  },
+  numberInput: {
+    height: 50,
+    width: 50,
+    fontSize: 32,
+    borderBottomColor: Colors.accent500,
+    borderBottomWidth: 2,
+    color: Colors.accent500,
+    marginVertical: 8,
+    fontWeight: "bold",
+    textAlign: "center",
+  },
+  buttonsContainer: {
+    flexDirection: "row",
+  },
+  buttonContainer: {
+    flex: 1,
+  },
+});
