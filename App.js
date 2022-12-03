@@ -9,6 +9,8 @@ import {
 } from "react-native";
 import { LinearGradient } from "expo-linear-gradient";
 
+import { StatusBar } from 'expo-status-bar'
+
 import * as Font from "expo-font";
 import * as SplashScreen from "expo-splash-screen";
 
@@ -90,6 +92,8 @@ export default function App() {
   }
 
   return (
+    <>
+    <StatusBar style="light"/>
     <LinearGradient
       colors={[Colors.primary700, Colors.accent500]}
       style={rootScreen}
@@ -103,6 +107,7 @@ export default function App() {
         <SafeAreaView style={rootScreen}>{screen}</SafeAreaView>
       </ImageBackground>
     </LinearGradient>
+    </>
   );
 }
 
