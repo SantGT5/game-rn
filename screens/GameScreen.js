@@ -109,6 +109,7 @@ const { screen, buttonsContainer, buttonContainer, instructionsText, listContain
     screen: {
       flex: 1,
       padding: 24,
+      alignItems:'center'
     },
     instructionsText: {
       marginBottom: 12,
