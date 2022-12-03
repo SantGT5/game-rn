@@ -9,7 +9,7 @@ import {
 } from "react-native";
 import { LinearGradient } from "expo-linear-gradient";
 
-import { StatusBar } from 'expo-status-bar'
+import { StatusBar } from "expo-status-bar";
 
 import * as Font from "expo-font";
 import * as SplashScreen from "expo-splash-screen";
@@ -65,7 +65,7 @@ export default function App() {
 
   function gameOverHandler(numberOfRounds) {
     setGameIsOver(true);
-    setGuessRound(numberOfRounds)
+    setGuessRound(numberOfRounds);
   }
 
   function startNewGameHandle() {
@@ -93,20 +93,20 @@ export default function App() {
 
   return (
     <>
-    <StatusBar style="light"/>
-    <LinearGradient
-      colors={[Colors.primary700, Colors.accent500]}
-      style={rootScreen}
-    >
-      <ImageBackground
-        source={require("./assets/images/background.png")}
-        resizeMode="cover"
+      <StatusBar style="light" />
+      <LinearGradient
+        colors={[Colors.primary700, Colors.accent500]}
         style={rootScreen}
-        imageStyle={backgroundImage}
       >
-        <SafeAreaView style={rootScreen}>{screen}</SafeAreaView>
-      </ImageBackground>
-    </LinearGradient>
+        <ImageBackground
+          source={require("./assets/images/background.png")}
+          resizeMode="cover"
+          style={rootScreen}
+          imageStyle={backgroundImage}
+        >
+          <SafeAreaView style={rootScreen}>{screen}</SafeAreaView>
+        </ImageBackground>
+      </LinearGradient>
     </>
   );
 }
